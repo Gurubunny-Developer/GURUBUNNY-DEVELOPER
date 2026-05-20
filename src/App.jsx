@@ -118,6 +118,10 @@ const education = [
   },
 ];
 
+const resumeUrl = "https://drive.google.com/file/d/1OfgFPhOOOQsZor3RIZlT93yNRQCxplq6/view?usp=sharing";
+const githubUrl = "https://github.com/gurubunny-developer";
+const portfolioUrl = "https://gurubunny-developer.vercel.app/";
+
 function useTyping(words, speed = 72, pause = 1300) {
   const [text, setText] = useState("");
 
@@ -329,26 +333,7 @@ function App() {
   }, []);
 
   const downloadResume = () => {
-    const resume = [
-      "TIRUNAM GURUBUNNY",
-      "Gurubunny-Developer | Full Stack Java Developer",
-      "Location: Bengaluru, BTM",
-      "Email: bunnyt903@gmail.com",
-      "Phone: 7337259252",
-      "",
-      "Profile",
-      "Passionate Full Stack Java Developer and Software Engineer with strong problem-solving skills, modern web technology interest, and a focus on scalable applications.",
-      "",
-      "Skills",
-      "C, Python, DBMS, Java, React, SQL",
-    ].join("\n");
-    const blob = new Blob([resume], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "Tirunam-Gurubunny-Resume.txt";
-    link.click();
-    URL.revokeObjectURL(url);
+    window.location.href = resumeUrl;
   };
 
   const handleSubmit = (event) => {
@@ -619,10 +604,10 @@ function App() {
                   <h3 className="text-2xl font-black text-white">{project.title}</h3>
                   <p className="mt-5 min-h-28 leading-8 text-slate-300">{project.body}</p>
                   <div className="mt-8 flex gap-3">
-                    <a href="#hero" className={cn(buttonVariants({ variant: "primary" }), "px-4 py-2")}>
+                    <a href={portfolioUrl} target="_blank" rel="noreferrer" className={cn(buttonVariants({ variant: "primary" }), "px-4 py-2")}>
                       Live Preview
                     </a>
-                    <a href="https://github.com/" target="_blank" rel="noreferrer" className={cn(buttonVariants({ variant: "ghost" }), "px-4 py-2")}>
+                    <a href={githubUrl} target="_blank" rel="noreferrer" className={cn(buttonVariants({ variant: "ghost" }), "px-4 py-2")}>
                       <Github className="h-4 w-4" /> GitHub
                     </a>
                   </div>
@@ -651,7 +636,9 @@ function App() {
                 {[Github, Linkedin, Mail].map((Icon, index) => (
                   <motion.a
                     key={index}
-                    href={index === 2 ? "mailto:bunnyt903@gmail.com" : "#hero"}
+                    href={index === 0 ? githubUrl : index === 1 ? portfolioUrl : "mailto:bunnyt903@gmail.com"}
+                    target={index === 2 ? undefined : "_blank"}
+                    rel={index === 2 ? undefined : "noreferrer"}
                     whileHover={{ y: -6, rotate: 6 }}
                     className="grid h-12 w-12 place-items-center rounded-md border border-white/10 bg-white/5 text-cyan-100 shadow-neon transition hover:bg-cyan-300/10"
                   >
