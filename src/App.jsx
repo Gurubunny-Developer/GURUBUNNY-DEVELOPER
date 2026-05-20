@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Lenis from "lenis";
-import * as THREE from "three";
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { cva } from "class-variance-authority";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import profilePhoto from "./assets/profile-photo.jpeg";
+import profilePhoto from "./assets/bunny.png";
 import {
   ArrowDownToLine,
   ArrowRight,
@@ -162,115 +161,81 @@ function useTyping(words, speed = 72, pause = 1300) {
   return text;
 }
 
-function ThreeDeveloperScene() {
-  const mountRef = useRef(null);
+function TechnicalHeroBackdrop() {
+  const traces = [
+    "M28 84 H128 V38 H226",
+    "M48 190 H178 V142 H320",
+    "M86 318 H214 V260 H354",
+    "M22 414 H148 V370 H270",
+    "M300 66 H390 V128 H470",
+    "M282 236 H420 V294 H500",
+  ];
+  const snippets = ["const app = build();", "java.sql.connect()", "SELECT * FROM skills", "React.render(<Portfolio />)", "api.status = 200"];
 
-  useEffect(() => {
-    const mount = mountRef.current;
-    if (!mount) return undefined;
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, mount.clientWidth / mount.clientHeight, 0.1, 100);
-    camera.position.set(0, 0.2, 7);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(mount.clientWidth, mount.clientHeight);
-    mount.appendChild(renderer.domElement);
-
-    const group = new THREE.Group();
-    scene.add(group);
-
-    const monitor = new THREE.Mesh(
-      new THREE.BoxGeometry(2.7, 1.65, 0.16),
-      new THREE.MeshStandardMaterial({
-        color: 0x07172f,
-        emissive: 0x073b68,
-        emissiveIntensity: 0.8,
-        metalness: 0.55,
-        roughness: 0.22,
-      })
-    );
-    const screen = new THREE.Mesh(
-      new THREE.PlaneGeometry(2.34, 1.28),
-      new THREE.MeshBasicMaterial({ color: 0x06111f, transparent: true, opacity: 0.95 })
-    );
-    screen.position.z = 0.091;
-
-    const stand = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.13, 0.2, 0.8, 32),
-      new THREE.MeshStandardMaterial({ color: 0x0ea5e9, emissive: 0x00ffff, emissiveIntensity: 0.35 })
-    );
-    stand.position.y = -1.15;
-    const base = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.72, 0.82, 0.12, 48),
-      new THREE.MeshStandardMaterial({ color: 0x101c36, metalness: 0.7, roughness: 0.26 })
-    );
-    base.position.y = -1.6;
-    base.rotation.x = Math.PI / 2;
-
-    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x67e8f9, transparent: true, opacity: 0.8 });
-    for (let i = 0; i < 8; i += 1) {
-      const y = 0.46 - i * 0.14;
-      const geometry = new THREE.BufferGeometry().setFromPoints([
-        new THREE.Vector3(-0.86, y, 0.1),
-        new THREE.Vector3(0.35 + Math.sin(i) * 0.55, y, 0.1),
-      ]);
-      group.add(new THREE.Line(geometry, lineMaterial));
-    }
-
-    const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(2.2, 0.012, 12, 120),
-      new THREE.MeshBasicMaterial({ color: 0x22d3ee, transparent: true, opacity: 0.6 })
-    );
-    ring.rotation.x = 1.1;
-
-    const particlesGeometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(170 * 3);
-    for (let i = 0; i < positions.length; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 7;
-      positions[i + 1] = (Math.random() - 0.5) * 5;
-      positions[i + 2] = (Math.random() - 0.5) * 6;
-    }
-    particlesGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    const particles = new THREE.Points(
-      particlesGeometry,
-      new THREE.PointsMaterial({ color: 0x67e8f9, size: 0.025, transparent: true, opacity: 0.72 })
-    );
-
-    group.add(monitor, screen, stand, base, ring, particles);
-    scene.add(new THREE.AmbientLight(0x9bdcff, 0.8));
-    const light = new THREE.PointLight(0x00ffff, 18, 14);
-    light.position.set(2.5, 2.5, 4);
-    scene.add(light);
-
-    let frameId;
-    const render = () => {
-      frameId = window.requestAnimationFrame(render);
-      group.rotation.y = Math.sin(Date.now() * 0.0007) * 0.24;
-      group.rotation.x = Math.sin(Date.now() * 0.0005) * 0.06;
-      ring.rotation.z += 0.008;
-      particles.rotation.y -= 0.0018;
-      renderer.render(scene, camera);
-    };
-    render();
-
-    const resize = () => {
-      camera.aspect = mount.clientWidth / mount.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(mount.clientWidth, mount.clientHeight);
-    };
-    window.addEventListener("resize", resize);
-
-    return () => {
-      window.cancelAnimationFrame(frameId);
-      window.removeEventListener("resize", resize);
-      renderer.dispose();
-      mount.removeChild(renderer.domElement);
-    };
-  }, []);
-
-  return <div ref={mountRef} className="h-[340px] w-full sm:h-[430px] lg:h-[540px]" aria-hidden="true" />;
+  return (
+    <div className="absolute inset-0 overflow-hidden rounded-lg" aria-hidden="true">
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(103,232,249,0.11)_1px,transparent_1px),linear-gradient(90deg,rgba(103,232,249,0.11)_1px,transparent_1px)] bg-[size:42px_42px]" />
+      <motion.div
+        animate={{ y: ["-18%", "118%"] }}
+        transition={{ duration: 4.2, repeat: Infinity, ease: "linear" }}
+        className="absolute left-0 right-0 top-0 h-28 bg-gradient-to-b from-transparent via-cyan-200/16 to-transparent"
+      />
+      <svg viewBox="0 0 520 520" className="absolute inset-0 h-full w-full">
+        {traces.map((path, index) => (
+          <motion.path
+            key={path}
+            d={path}
+            fill="none"
+            stroke={index % 2 ? "#38bdf8" : "#67e8f9"}
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={{ pathLength: 0, opacity: 0.18 }}
+            animate={{ pathLength: [0.08, 1, 0.08], opacity: [0.18, 0.72, 0.18] }}
+            transition={{ duration: 4 + index * 0.45, repeat: Infinity, delay: index * 0.35, ease: "easeInOut" }}
+          />
+        ))}
+        {[
+          [128, 38],
+          [178, 142],
+          [214, 260],
+          [148, 370],
+          [390, 128],
+          [420, 294],
+        ].map(([cx, cy], index) => (
+          <motion.circle
+            key={`${cx}-${cy}`}
+            cx={cx}
+            cy={cy}
+            r="5"
+            fill="#67e8f9"
+            animate={{ scale: [0.8, 1.6, 0.8], opacity: [0.35, 1, 0.35] }}
+            transition={{ duration: 2.5, repeat: Infinity, delay: index * 0.25 }}
+          />
+        ))}
+      </svg>
+      {snippets.map((snippet, index) => (
+        <motion.div
+          key={snippet}
+          animate={{ x: index % 2 ? [18, -18, 18] : [-18, 18, -18], opacity: [0.18, 0.58, 0.18] }}
+          transition={{ duration: 5 + index * 0.6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute rounded-md border border-cyan-200/20 bg-slate-950/55 px-3 py-2 font-mono text-[11px] text-cyan-100 shadow-neon backdrop-blur"
+          style={{
+            left: `${8 + ((index * 19) % 58)}%`,
+            top: `${12 + ((index * 17) % 66)}%`,
+          }}
+        >
+          {snippet}
+        </motion.div>
+      ))}
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+        className="absolute left-1/2 top-1/2 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-200/20"
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(2,6,23,0.18)_45%,rgba(2,6,23,0.88)_100%)]" />
+    </div>
+  );
 }
 
 function SectionHeader({ eyebrow, title, text }) {
@@ -545,17 +510,26 @@ function App() {
               transition={{ duration: 0.9, delay: 0.15 }}
               className="relative grid min-h-[430px] place-items-center sm:min-h-[520px] lg:min-h-[580px]"
             >
-              <div className="absolute inset-8 rounded-full bg-cyan-300/20 blur-3xl" />
-              <div className="absolute inset-0 opacity-55">
-                <ThreeDeveloperScene />
+              <div className="absolute inset-10 rounded-lg bg-cyan-300/12 blur-3xl" />
+              <div className="absolute inset-0 opacity-80">
+                <TechnicalHeroBackdrop />
               </div>
               <motion.div
-                animate={{ y: [-10, 10, -10] }}
-                transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-                className="relative z-10 h-72 w-72 overflow-hidden rounded-full border border-cyan-200/60 bg-slate-950 shadow-[0_0_60px_rgba(34,211,238,0.38)] sm:h-80 sm:w-80 lg:h-96 lg:w-96"
+                whileHover={{ y: -6 }}
+                transition={{ type: "spring", stiffness: 180, damping: 18 }}
+                className="relative z-10 w-full max-w-[360px] overflow-hidden rounded-lg border border-white/15 bg-slate-950/80 p-3 shadow-[0_28px_90px_rgba(2,6,23,0.55)] backdrop-blur-xl sm:max-w-[410px]"
               >
-                <img src={profilePhoto} alt="Tirunam Gurubunny profile" className="h-full w-full object-cover" />
-                <div className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-white/30" />
+                <div className="aspect-[4/5] overflow-hidden rounded-md bg-slate-900">
+                  <img src={profilePhoto} alt="Tirunam Gurubunny profile" className="h-full w-full object-cover object-center" />
+                </div>
+                <div className="flex items-center justify-between gap-4 px-2 py-4">
+                  <div>
+                    <p className="text-sm font-black uppercase tracking-[0.18em] text-white">Tirunam Gurubunny</p>
+                    <p className="mt-1 text-xs font-semibold text-cyan-200">Full Stack Java Developer</p>
+                  </div>
+                  <span className="h-2.5 w-2.5 rounded-full bg-cyan-200 shadow-neon" aria-hidden="true" />
+                </div>
+                <div className="pointer-events-none absolute inset-0 rounded-lg ring-1 ring-inset ring-cyan-200/20" />
               </motion.div>
             </motion.div>
           </div>
