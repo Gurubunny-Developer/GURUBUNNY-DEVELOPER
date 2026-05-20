@@ -479,7 +479,10 @@ function App() {
                 <a href="#contact" className={buttonVariants({ variant: "primary" })}>
                   Hire Me <ArrowRight className="h-4 w-4" />
                 </a>
-                <a href={resumeUrl} className={buttonVariants({ variant: "ghost" })}>
+                <a
+                  href="https://drive.google.com/file/d/1OfgFPhOOOQsZor3RIZlT93yNRQCxplq6/view?usp=sharing"
+                  className={buttonVariants({ variant: "ghost" })}
+                >
                   Download Resume <ArrowDownToLine className="h-4 w-4" />
                 </a>
               </div>
@@ -642,7 +645,10 @@ function App() {
                   </motion.a>
                 ))}
               </div>
-              <a href={resumeUrl} className={cn(buttonVariants({ variant: "primary" }), "mt-8 w-full")}>
+              <a
+                href="https://drive.google.com/file/d/1OfgFPhOOOQsZor3RIZlT93yNRQCxplq6/view?usp=sharing"
+                className={cn(buttonVariants({ variant: "primary" }), "mt-8 w-full")}
+              >
                 Resume Download <ArrowDownToLine className="h-4 w-4" />
               </a>
             </GlassCard>
