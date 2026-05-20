@@ -332,10 +332,6 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
-  const downloadResume = () => {
-    window.location.href = resumeUrl;
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -483,9 +479,9 @@ function App() {
                 <a href="#contact" className={buttonVariants({ variant: "primary" })}>
                   Hire Me <ArrowRight className="h-4 w-4" />
                 </a>
-                <Button type="button" variant="ghost" onClick={downloadResume}>
+                <a href={resumeUrl} className={buttonVariants({ variant: "ghost" })}>
                   Download Resume <ArrowDownToLine className="h-4 w-4" />
-                </Button>
+                </a>
               </div>
             </motion.div>
 
@@ -646,9 +642,9 @@ function App() {
                   </motion.a>
                 ))}
               </div>
-              <Button type="button" onClick={downloadResume} className="mt-8 w-full">
+              <a href={resumeUrl} className={cn(buttonVariants({ variant: "primary" }), "mt-8 w-full")}>
                 Resume Download <ArrowDownToLine className="h-4 w-4" />
-              </Button>
+              </a>
             </GlassCard>
 
             <GlassCard>
